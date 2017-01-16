@@ -15,10 +15,24 @@
 <script>
 export default {
   name: 'nav-menu',
+  data: function () {
+    return {
+      currentPage: ''
+    }
+  },
+  created () {
+    this.setCurrentPage()
+  },
+  watch: {
+    // call again the method if the route changes
+    '$route': 'setCurrentPage'
+  },
   methods: {
     isActive: function (page) {
-      console.log(this.$router.stringifyPath)
-      return page === 'irregularVerbs'
+      return page === this.currentPage
+    },
+    setCurrentPage: function () {
+      this.currentPage = this.$route.name
     }
   }
 }

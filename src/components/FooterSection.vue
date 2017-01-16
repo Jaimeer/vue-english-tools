@@ -3,7 +3,7 @@
     <div class="container">
       <div class="content has-text-centered">
         <p>
-          <strong>English Tools</strong> by <a href="#">Jaime Escolar</a>
+          <strong>English Tools</strong> by <a href="https://github.com/Jaimeer" target="_blanck">Jaime Escolar</a>
         </p>
         <p>
           <a class="icon" href="#">

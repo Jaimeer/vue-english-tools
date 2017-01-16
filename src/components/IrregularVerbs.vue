@@ -15,8 +15,7 @@
           <th></th>
           <th></th>
           <th></th>
-          <th></th>
-          <th>{{ quizScore }}</th>
+          <th colspan="2" class="right">{{ quizScore }}</th>
         </tr>
       </tfoot>
       <tbody>
@@ -117,10 +116,12 @@ export default {
   computed: {
     quizScore: function () {
       let score = 0
-      if (this.quizResults.length > 0) {
-        score = this.quizResults.reduce((a, b) => a + b.correct, 0) * 100 / this.quizResults.length
+      let responses = this.quizResults.length
+      let total = this.quizData.length + responses
+      if (responses > 0) {
+        score = this.quizResults.reduce((a, b) => a + b.correct, 0) * 100 / responses
       }
-      return score.toFixed(2) + '%'
+      return score.toFixed(2) + '% compleated ' + responses + '/' + total
     },
     formValid: function () {
       return this.form.pasSimple !== '' && this.form.pastParticiple !== ''
@@ -149,5 +150,8 @@ export default {
     border-color: #23d160;
     color: #23d160;
     border: 1px solid;
+  }
+  .right {
+    text-align: right
   }
 </style>
