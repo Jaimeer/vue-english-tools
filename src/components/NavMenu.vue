@@ -2,9 +2,9 @@
   <nav class="nav has-shadow">
     <div class="container">
       <div class="nav-left">
-        <a class="nav-item">
-          <img src="http://bulma.io/images/bulma-logo.png" alt="Bulma logo">
-        </a>
+        <router-link :to="{ name: 'home' }" class="nav-item">
+          <span>English Tools</span>
+        </router-link>
         <router-link :to="{ name: 'home' }" class="nav-item is-tab" :class="{ 'is-active': isActive('home') }">Home</router-link>
         <router-link :to="{ name: 'irregularVerbs' }" class="nav-item is-tab" :class="{ 'is-active': isActive('irregularVerbs') }">Irregular Verbs</router-link>
       </div>
@@ -41,7 +41,10 @@ export default {
   .custom-nav-menu{
 
   }
-  .separator {
-    color: #a9d42f;
+  span {
+    color: #00d1b2;
+    font-weight: bold;
+    font-size: 1.4em;
+    font-family: cursive;
   }
 </style>

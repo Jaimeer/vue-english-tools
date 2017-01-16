@@ -19,11 +19,11 @@
         </tr>
       </tfoot>
       <tbody>
-        <tr>
-          <th>-</th>
+        <tr @keyup.enter="checkResult">
+          <th><span>-</span></th>
           <td><span v-if="quiz">{{ quiz.baseForm }}</span></td>
-          <td><input v-model="form.pastSimple" class='input' type='text' placeholder='Past Simple' :disabled="!quiz"></td>
-          <td><input v-model="form.pastParticiple" class='input' type='text' placeholder='Past Participle' :disabled="!quiz"></td>
+          <td><input ref="pastSimple" v-model="form.pastSimple" class='input' type='text' placeholder='Past Simple' :disabled="!quiz" autofocus></td>
+          <td><input ref="pastParticiple" v-model="form.pastParticiple" class='input' type='text' placeholder='Past Participle' :disabled="!quiz"></td>
           <td><button class='button is-primary' @click="checkResult" :disabled="!quiz || !formValid">Check</button></td>
         </tr>
         <tr v-for="(result, index) in quizResults">
@@ -44,8 +44,17 @@
         </tr>
       </tbody>
     </table>
-    <div v-show="showFinish">
-      Finish
+    <div class="modal" :class="{ 'is-active': modalOpen }">
+      <div class="modal-background" @click="closeModal"></div>
+      <div class="modal-content">
+        <article class="message is-primary">
+          <div class="message-body center">
+            <div class="finish-title">Quiz Finished</div>
+            <div class="finish-message">{{ quizScore }}</div>
+            <button class="button is-primary" @click="closeModal">Reset</button>
+          </div>
+        </article>
+      </div>
     </div>
   </div>
 </template>
@@ -63,27 +72,32 @@ export default {
         pastParticiple: ''
       },
       quizData: [],
-      quizResults: []
+      quizResults: [],
+      modalOpen: false
     }
   },
   created () {
     this.getData(true)
   },
+  mounted () {
+    this.cleanForm()
+  },
   watch: {
-    // call again the method if the route changes
-    '$route': 'fetchData'
+    '$route': 'cleanForm'
   },
   methods: {
     checkResult: function () {
-      let result = this.quiz
-      let correctPastSimple = this.form.pastSimple === this.quiz.pastSimple
-      let correctPastParticiple = this.form.pastParticiple === this.quiz.pastParticiple
-      result.correct = correctPastSimple && correctPastParticiple
-      result.error = {}
-      result.error.pastSimple = correctPastSimple ? null : this.form.pastSimple
-      result.error.pastParticiple = correctPastParticiple ? null : this.form.pastParticiple
-      this.quizResults.unshift(result)
-      this.nextQuiz()
+      if (this.formValid()) {
+        let result = this.quiz
+        let correctPastSimple = this.form.pastSimple === this.quiz.pastSimple
+        let correctPastParticiple = this.form.pastParticiple === this.quiz.pastParticiple
+        result.correct = correctPastSimple && correctPastParticiple
+        result.error = {}
+        result.error.pastSimple = correctPastSimple ? null : this.form.pastSimple
+        result.error.pastParticiple = correctPastParticiple ? null : this.form.pastParticiple
+        this.quizResults.unshift(result)
+        this.nextQuiz()
+      }
     },
     nextQuiz: function () {
       let self = this
@@ -95,6 +109,8 @@ export default {
     },
     cleanForm: function () {
       this.form = { pastSimple: '', pastParticiple: '' }
+      console.log(this.$refs)
+      this.$refs.pastSimple.focus()
     },
     setRamdomQuiz () {
       if (this.quizData.length === 0) {
@@ -106,11 +122,29 @@ export default {
     getData () {
       getIrregularVerbs(data => {
         this.quizData = data
+        this.quizResults = []
         this.setRamdomQuiz()
       })
     },
     getExternalUrl: function (text) {
       return 'http://www.wordreference.com/definition/' + text
+    },
+    closeModal: function () {
+      this.cleanForm()
+      this.getData()
+      this.modalOpen = false
+    },
+    checkIsFinished: function () {
+      // return this.quizData.length === 0 && this.quizResults.length > 0
+      console.log('showFinish')
+      // if (this.quizResults.length === 2) {
+      if (this.quizData.length === 0 && this.quizResults.length > 0) {
+        console.log('entro')
+        this.modalOpen = true
+      }
+    },
+    formValid: function () {
+      return this.form.pasSimple !== '' && this.form.pastParticiple !== ''
     }
   },
   computed: {
@@ -121,13 +155,10 @@ export default {
       if (responses > 0) {
         score = this.quizResults.reduce((a, b) => a + b.correct, 0) * 100 / responses
       }
-      return score.toFixed(2) + '% compleated ' + responses + '/' + total
-    },
-    formValid: function () {
-      return this.form.pasSimple !== '' && this.form.pastParticiple !== ''
-    },
-    showFinish: function () {
-      return this.quizData.length === 0 && this.quizResults.length > 0
+      this.checkIsFinished()
+      let success = responses > 0 ? 'Success ' + score.toFixed(2) + '% | ' : ''
+      let responsesText = 'Compleated ' + responses + '/' + total
+      return success + responsesText
     }
   }
 }
@@ -153,5 +184,18 @@ export default {
   }
   .right {
     text-align: right
+  }
+  .center {
+    text-align: center
+  }
+  .finish-message {
+    margin: 20px 0px;
+  }
+  .finish-title {
+    font-weight: bold
+  }
+  th span,
+  td span {
+    vertical-align: middle;
   }
 </style>

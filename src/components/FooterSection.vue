@@ -5,11 +5,6 @@
         <p>
           <strong>English Tools</strong> by <a href="https://github.com/Jaimeer" target="_blanck">Jaime Escolar</a>
         </p>
-        <p>
-          <a class="icon" href="#">
-            <i class="fa fa-github"></i>
-          </a>
-        </p>
       </div>
     </div>
   </footer>
@@ -21,4 +16,7 @@ export default {
 }
 </script>
 <style scoped>
+  .footer {
+    padding: 1rem 1.5rem 1rem;
+  }
 </style>

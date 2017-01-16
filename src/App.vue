@@ -14,6 +14,7 @@
 import NavMenu from './components/NavMenu'
 import LeftMenu from './components/LeftMenu'
 import FooterSection from './components/FooterSection'
+import 'bulma/css/bulma.css'
 
 export default {
   name: 'app',
@@ -25,8 +26,13 @@ export default {
 }
 </script>
 
-<style>
+<style>  
   #app {
-    
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+  .section {
+    flex: 1;
   }
 </style>
