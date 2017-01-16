@@ -45,6 +45,9 @@
         </tr>
       </tbody>
     </table>
+    <div v-show="showFinish">
+      Finish
+    </div>
   </div>
 </template>
 
@@ -99,7 +102,6 @@ export default {
         this.quiz = null
       } else {
         this.quiz = this.quizData[Math.floor(Math.random() * this.quizData.length)]
-        console.log(this.quiz)
       }
     },
     getData () {
@@ -122,6 +124,9 @@ export default {
     },
     formValid: function () {
       return this.form.pasSimple !== '' && this.form.pastParticiple !== ''
+    },
+    showFinish: function () {
+      return this.quizData.length === 0 && this.quizResults.length > 0
     }
   }
 }

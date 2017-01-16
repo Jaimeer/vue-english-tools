@@ -5,8 +5,8 @@
         <a class="nav-item">
           <img src="http://bulma.io/images/bulma-logo.png" alt="Bulma logo">
         </a>
-        <router-link to="/" class="nav-item is-tab is-active">Home</router-link>
-        <router-link to="/tools/irregular-verbs" class="nav-item is-tab">Irregular Verbs</router-link>
+        <router-link :to="{ name: 'home' }" class="nav-item is-tab" :class="{ 'is-active': isActive('home') }">Home</router-link>
+        <router-link :to="{ name: 'irregularVerbs' }" class="nav-item is-tab" :class="{ 'is-active': isActive('irregularVerbs') }">Irregular Verbs</router-link>
       </div>
     </div>
   </nav>
@@ -14,7 +14,13 @@
 
 <script>
 export default {
-  name: 'nav-menu'
+  name: 'nav-menu',
+  methods: {
+    isActive: function (page) {
+      console.log(this.$router.stringifyPath)
+      return page === 'irregularVerbs'
+    }
+  }
 }
 </script>
 <style scoped>
