@@ -34,7 +34,7 @@ const data = [
   { baseForm: 'find', pastSimple: 'found', pastParticiple: 'found' },
   { baseForm: 'fly', pastSimple: 'flew', pastParticiple: 'flown' },
   { baseForm: 'forget', pastSimple: 'forgot', pastParticiple: 'forgotten' },
-  { baseForm: 'fogive', pastSimple: 'forgave', pastParticiple: 'forgiven' },
+  { baseForm: 'forgive', pastSimple: 'forgave', pastParticiple: 'forgiven' },
   { baseForm: 'freeze', pastSimple: 'froze', pastParticiple: 'frozen' },
   { baseForm: 'get', pastSimple: 'got', pastParticiple: 'got' },
   { baseForm: 'go', pastSimple: 'went', pastParticiple: 'gone' },
