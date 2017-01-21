@@ -91,7 +91,7 @@ const data = [
   { baseForm: 'wake', pastSimple: 'woke', pastParticiple: 'woken' },
   { baseForm: 'wear', pastSimple: 'wore', pastParticiple: 'worn' },
   { baseForm: 'win', pastSimple: 'won', pastParticiple: 'won' },
-  { baseForm: 'write', pastSimple: 'wrote', pastParticiple: 'writen' }
+  { baseForm: 'write', pastSimple: 'wrote', pastParticiple: 'written' }
 ]
 
 /*

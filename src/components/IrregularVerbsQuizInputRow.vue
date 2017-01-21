@@ -36,6 +36,7 @@ export default {
         result.error = {}
         result.error.pastSimple = correctPastSimple ? null : this.form.pastSimple.toLowerCase().trim()
         result.error.pastParticiple = correctPastParticiple ? null : this.form.pastParticiple.toLowerCase().trim()
+        this.$ua.trackEvent('irregular-verbs-quiz-input-row', 'checkResult', this.quiz.baseForm, result.correct)
         this.$emit('submit', result)
       }
     },

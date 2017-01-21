@@ -56,7 +56,8 @@ export default {
   },
   created () {
     this.getData(true)
-    this.maxResults = this.quizData.length
+    // this.maxResults = this.quizData.length
+    this.maxResults = 2
   },
   methods: {
     checkResult: function (result) {
@@ -94,9 +95,8 @@ export default {
       this.maxResults = length === 0 ? this.quizData.length : length > this.quizData.length ? this.quizData.length : length
     },
     checkIsFinished: function () {
-      // if (this.quizResults.length === 2) {
       if (this.quizResults.length === this.maxResults) {
-        console.log('entro')
+        this.$ua.trackEvent('irregular-verbs', 'quiz-finished', this.quizResults.length, this.getScore())
         this.modalOpen = true
       }
     },
@@ -109,15 +109,20 @@ export default {
       this.setRamdomQuiz()
       this.maxResults = this.quizData.length
       this.modalOpen = false
-    }
-  },
-  computed: {
-    quizScore: function () {
+    },
+    getScore: function () {
       let score = 0
       let responses = this.quizResults.length
       if (responses > 0) {
         score = this.quizResults.reduce((a, b) => a + b.correct, 0) * 100 / responses
       }
+      return score
+    }
+  },
+  computed: {
+    quizScore: function () {
+      let score = this.getScore()
+      let responses = this.quizResults.length
       this.checkIsFinished()
       let success = responses > 0 ? 'Success ' + score.toFixed(2) + '% | ' : ''
       let responsesText = 'Compleated ' + responses + '/' + this.maxResults

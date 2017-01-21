@@ -16,6 +16,7 @@ export default {
   name: 'irregular-verbs-menu',
   methods: {
     changeQuizLength: function (quizLength) {
+      this.$ua.trackEvent('irregular-verbs-menu', 'changeQuizLength', quizLength)
       this.$emit('lengthChanged', quizLength)
     }
   }

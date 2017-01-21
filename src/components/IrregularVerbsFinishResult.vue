@@ -20,9 +20,11 @@ export default {
   props: ['modalOpen', 'quizScore', 'enableTestFailures'],
   methods: {
     closeModal: function () {
+      this.$ua.trackEvent('irregular-verbs-finish-result', 'closeModal')
       this.$emit('closeModal')
     },
     testFailured: function () {
+      this.$ua.trackEvent('irregular-verbs-finish-result', 'testFailured')
       this.$emit('testFailures')
     }
   }
