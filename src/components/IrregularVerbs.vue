@@ -86,6 +86,7 @@ export default {
     },
     closeModal: function () {
       this.getData()
+      this.maxResults = this.quizData.length
       this.modalOpen = false
     },
     lengthChanged: function (length) {
