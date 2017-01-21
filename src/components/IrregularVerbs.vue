@@ -103,7 +103,6 @@ export default {
       }
     },
     testFailures: function () {
-      console.log('testFailures')
       this.quizData = this.quizResults.filter((result) => {
         return !result.correct
       })
