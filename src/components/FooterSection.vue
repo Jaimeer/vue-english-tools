@@ -3,7 +3,11 @@
     <div class="container">
       <div class="content has-text-centered">
         <p>
-          <strong>English Tools</strong> by <a href="https://github.com/Jaimeer" target="_blanck">Jaime Escolar</a>
+          <strong>English Tools</strong> by <a href="https://github.com/Jaimeer" target="_blanck">Jaime Escolar</a> 
+          -
+          <a class="icon" href="https://github.com/Jaimeer/vue-english-tools" target="_blanck">
+            <i class="fa fa-github"></i>
+          </a>
         </p>
       </div>
     </div>

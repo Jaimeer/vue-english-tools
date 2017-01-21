@@ -1,6 +1,12 @@
-# english-tools
+# vue-english-tools
 
-> A Vue.js project
+> English Tools is a web page for test your english skills
+
+The reason to make this web page is to learn Vue.js as framework for other projects
+
+# English Tools
+
+* Irregular Verbs Test
 
 ## Build Setup
 
