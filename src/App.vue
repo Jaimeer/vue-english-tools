@@ -35,4 +35,14 @@ export default {
   .section {
     flex: 1;
   }
+  .right {
+    text-align: right
+  }
+  .center {
+    text-align: center
+  }
+  th span,
+  td span {
+    vertical-align: middle;
+  }
 </style>

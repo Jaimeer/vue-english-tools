@@ -1,5 +1,6 @@
 <template>
   <div class='irregular-verbs'>
+    <irregular-verbs-menu @lengthChanged="lengthChanged"></irregular-verbs-menu>
     <table class='table'>
       <thead>
         <tr>
@@ -19,98 +20,56 @@
         </tr>
       </tfoot>
       <tbody>
-        <tr @keyup.enter="checkResult">
-          <th><span>-</span></th>
-          <td><span v-if="quiz">{{ quiz.baseForm }}</span></td>
-          <td><input ref="pastSimple" v-model="form.pastSimple" class='input' type='text' placeholder='Past Simple' :disabled="!quiz" autofocus></td>
-          <td><input ref="pastParticiple" v-model="form.pastParticiple" class='input' type='text' placeholder='Past Participle' :disabled="!quiz"></td>
-          <td><button class='button is-primary' @click="checkResult" :disabled="!quiz || !formValid">Check</button></td>
-        </tr>
-        <tr v-for="(result, index) in quizResults">
-          <th>{{ quizResults.length - index }}</th>
-          <td><a :href="getExternalUrl(result.baseForm)" target="_banck">{{ result.baseForm }}</a></td>
-          <td>
-            {{ result.pastSimple }}
-            <span v-if="result.error.pastSimple" class="help is-danger"> {{ result.error.pastSimple }}</span>
-          </td>
-          <td>
-            {{ result.pastParticiple }}
-            <span v-if="result.error.pastParticiple" class="help is-danger"> {{ result.error.pastParticiple }}</span>
-          </td>
-          <td>
-            <span v-show="result.correct" class="tag is-outlined is-small is-success"><i class="fa fa-check"></i></span>
-            <span v-show="!result.correct" class="tag is-outlined is-small is-danger"><i class="fa fa-times"></i></span>
-          </td>
-        </tr>
+        <irregular-verbs-quiz-input-row :quiz="quiz" @submit="checkResult"></irregular-verbs-quiz-input-row>
+        <template v-for="(result, index) in quizResults">
+          <irregular-verbs-result-row :result="result" :rowNumber="quizResults.length - index"></irregular-verbs-result-row>
+        </template>
       </tbody>
     </table>
-    <div class="modal" :class="{ 'is-active': modalOpen }">
-      <div class="modal-background" @click="closeModal"></div>
-      <div class="modal-content">
-        <article class="message is-primary">
-          <div class="message-body center">
-            <div class="finish-title">Quiz Finished</div>
-            <div class="finish-message">{{ quizScore }}</div>
-            <button class="button is-primary" @click="closeModal">Reset</button>
-          </div>
-        </article>
-      </div>
-    </div>
+    <irregular-verbs-finish-result :quizScore="quizScore" :modalOpen="modalOpen" :enableTestFailures="enableTestFailures" @closeModal="closeModal" @testFailures="testFailures"></irregular-verbs-finish-result>
   </div>
 </template>
 
 <script>
 import {getIrregularVerbs} from '../data/IrregularVerbs'
+import IrregularVerbsQuizInputRow from './IrregularVerbsQuizInputRow'
+import IrregularVerbsResultRow from './IrregularVerbsResultRow'
+import IrregularVerbsFinishResult from './IrregularVerbsFinishResult'
+import IrregularVerbsMenu from './IrregularVerbsMenu'
 
 export default {
   name: 'irregular-verbs',
+  components: {
+    IrregularVerbsQuizInputRow,
+    IrregularVerbsResultRow,
+    IrregularVerbsFinishResult,
+    IrregularVerbsMenu
+  },
   data: function () {
     return {
       quiz: {},
-      form: {
-        pastSimple: '',
-        pastParticiple: ''
-      },
       quizData: [],
       quizResults: [],
-      modalOpen: false
+      modalOpen: false,
+      maxResults: 0
     }
   },
   created () {
     this.getData(true)
-  },
-  mounted () {
-    this.cleanForm()
-  },
-  watch: {
-    '$route': 'cleanForm'
+    this.maxResults = this.quizData.length
+    this.maxResults = 2
   },
   methods: {
-    checkResult: function () {
-      if (this.formValid()) {
-        let result = this.quiz
-        let correctPastSimple = this.form.pastSimple.toLowerCase().trim() === this.quiz.pastSimple.toLowerCase().trim()
-        let correctPastParticiple = this.form.pastParticiple.toLowerCase().trim() === this.quiz.pastParticiple.toLowerCase().trim()
-        result.correct = correctPastSimple && correctPastParticiple
-        result.error = {}
-        result.error.pastSimple = correctPastSimple ? null : this.form.pastSimple.toLowerCase().trim()
-        result.error.pastParticiple = correctPastParticiple ? null : this.form.pastParticiple.toLowerCase().trim()
-        this.quizResults.unshift(result)
-        this.nextQuiz()
-      }
+    checkResult: function (result) {
+      this.quizResults.unshift(result)
+      this.nextQuiz()
     },
     nextQuiz: function () {
       let self = this
       this.quizData = this.quizData.filter(function (el) {
         return el.baseForm !== self.quiz.baseForm
       })
-      this.cleanForm()
       this.setRamdomQuiz()
-    },
-    cleanForm: function () {
-      this.form = { pastSimple: '', pastParticiple: '' }
-      console.log(this.$refs)
-      this.$refs.pastSimple.focus()
     },
     setRamdomQuiz () {
       if (this.quizData.length === 0) {
@@ -126,39 +85,49 @@ export default {
         this.setRamdomQuiz()
       })
     },
-    getExternalUrl: function (text) {
-      return 'http://www.wordreference.com/definition/' + text
-    },
     closeModal: function () {
-      this.cleanForm()
       this.getData()
       this.modalOpen = false
     },
+    lengthChanged: function (length) {
+      this.getData()
+      this.maxResults = length === 0 ? this.quizData.length : length > this.quizData.length ? this.quizData.length : length
+    },
     checkIsFinished: function () {
-      // return this.quizData.length === 0 && this.quizResults.length > 0
-      console.log('showFinish')
       // if (this.quizResults.length === 2) {
-      if (this.quizData.length === 0 && this.quizResults.length > 0) {
+      if (this.quizResults.length === this.maxResults) {
         console.log('entro')
         this.modalOpen = true
       }
     },
-    formValid: function () {
-      return this.form.pasSimple !== '' && this.form.pastParticiple !== ''
+    testFailures: function () {
+      console.log('testFailures')
+      this.quizData = this.quizResults.filter((result) => {
+        return !result.correct
+      })
+      this.quizResults = []
+      this.setRamdomQuiz()
+      this.maxResults = this.quizData.length
+      this.modalOpen = false
     }
   },
   computed: {
     quizScore: function () {
       let score = 0
       let responses = this.quizResults.length
-      let total = this.quizData.length + responses
       if (responses > 0) {
         score = this.quizResults.reduce((a, b) => a + b.correct, 0) * 100 / responses
       }
       this.checkIsFinished()
       let success = responses > 0 ? 'Success ' + score.toFixed(2) + '% | ' : ''
-      let responsesText = 'Compleated ' + responses + '/' + total
+      let responsesText = 'Compleated ' + responses + '/' + this.maxResults
       return success + responsesText
+    },
+    enableTestFailures: function () {
+      let numErrors = this.quizResults.filter((result) => {
+        return !result.correct
+      }).length
+      return numErrors > 0
     }
   }
 }
@@ -166,36 +135,5 @@ export default {
 
 <style scoped>
   .irregular-verbs {
-  }
-  .help {
-    display: inline
-  }
-  .tag.is-danger.is-outlined {
-    background-color: transparent;
-    border-color: #ff3860;
-    color: #ff3860;    
-    border: 1px solid;
-  }
-  .tag.is-success.is-outlined {
-    background-color: transparent;
-    border-color: #23d160;
-    color: #23d160;
-    border: 1px solid;
-  }
-  .right {
-    text-align: right
-  }
-  .center {
-    text-align: center
-  }
-  .finish-message {
-    margin: 20px 0px;
-  }
-  .finish-title {
-    font-weight: bold
-  }
-  th span,
-  td span {
-    vertical-align: middle;
   }
 </style>

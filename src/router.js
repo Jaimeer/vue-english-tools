@@ -1,5 +1,5 @@
 import VueRouter from 'vue-router'
-import Home from './components/Home'
+import Home from './components//Home'
 import IrregularVerbs from './components/IrregularVerbs'
 
 const router = new VueRouter({
