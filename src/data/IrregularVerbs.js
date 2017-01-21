@@ -12,7 +12,7 @@ const data = [
   { baseForm: 'blow', pastSimple: 'blew', pastParticiple: 'blown' },
   { baseForm: 'break', pastSimple: 'broke', pastParticiple: 'broken' },
   { baseForm: 'bring', pastSimple: 'brought', pastParticiple: 'brought' },
-  { baseForm: 'brodcast', pastSimple: 'brodcast', pastParticiple: 'brodcast' },
+  { baseForm: 'broadcast', pastSimple: 'broadcast', pastParticiple: 'broadcast' },
   { baseForm: 'build', pastSimple: 'built', pastParticiple: 'built' },
   { baseForm: 'burn', pastSimple: 'burnt', pastParticiple: 'burnt' },
   { baseForm: 'buy', pastSimple: 'bought', pastParticiple: 'bought' },
