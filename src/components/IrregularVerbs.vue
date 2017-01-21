@@ -89,12 +89,12 @@ export default {
     checkResult: function () {
       if (this.formValid()) {
         let result = this.quiz
-        let correctPastSimple = this.form.pastSimple === this.quiz.pastSimple
-        let correctPastParticiple = this.form.pastParticiple === this.quiz.pastParticiple
+        let correctPastSimple = this.form.pastSimple.toLowerCase().trim() === this.quiz.pastSimple.toLowerCase().trim()
+        let correctPastParticiple = this.form.pastParticiple.toLowerCase().trim() === this.quiz.pastParticiple.toLowerCase().trim()
         result.correct = correctPastSimple && correctPastParticiple
         result.error = {}
-        result.error.pastSimple = correctPastSimple ? null : this.form.pastSimple
-        result.error.pastParticiple = correctPastParticiple ? null : this.form.pastParticiple
+        result.error.pastSimple = correctPastSimple ? null : this.form.pastSimple.toLowerCase().trim()
+        result.error.pastParticiple = correctPastParticiple ? null : this.form.pastParticiple.toLowerCase().trim()
         this.quizResults.unshift(result)
         this.nextQuiz()
       }
