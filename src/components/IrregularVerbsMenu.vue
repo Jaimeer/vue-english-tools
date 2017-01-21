@@ -23,8 +23,6 @@ export default {
 </script>
 
 <style scoped>
-  .irregular-verbs {
-  }
   .text {
     vertical-align: middle;
     color: #7a7a7a;

@@ -1,5 +1,5 @@
 <template>
-  <div class='irregular-verbs'>
+  <div>
     <irregular-verbs-menu @lengthChanged="lengthChanged"></irregular-verbs-menu>
     <table class='table'>
       <thead>
@@ -133,6 +133,4 @@ export default {
 </script>
 
 <style scoped>
-  .irregular-verbs {
-  }
 </style>
