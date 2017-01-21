@@ -47,6 +47,7 @@ export default {
   },
   data: function () {
     return {
+      defaultMaxResults: 0,
       quiz: {},
       quizData: [],
       quizResults: [],
@@ -57,7 +58,8 @@ export default {
   created () {
     this.getData(true)
     // this.maxResults = this.quizData.length
-    this.maxResults = 2
+    this.defaultMaxResults = 10
+    this.maxResults = this.defaultMaxResults
   },
   methods: {
     checkResult: function (result) {
@@ -87,7 +89,7 @@ export default {
     },
     closeModal: function () {
       this.getData()
-      this.maxResults = this.quizData.length
+      this.maxResults = this.defaultMaxResults
       this.modalOpen = false
     },
     lengthChanged: function (length) {
