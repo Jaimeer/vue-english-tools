@@ -16,7 +16,7 @@ Vue.use(VueAnalytics, {
   appName: packageInfo.name,
   appVersion: packageInfo.version,
   trackingId: parameters['ga-code'],
-  debug: true,
+  debug: parameters['ga-debug'],
   vueRouter: router
 })
 
