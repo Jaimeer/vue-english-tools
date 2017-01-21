@@ -57,7 +57,6 @@ export default {
   created () {
     this.getData(true)
     this.maxResults = this.quizData.length
-    this.maxResults = 2
   },
   methods: {
     checkResult: function (result) {
