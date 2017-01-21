@@ -25,11 +25,6 @@ export default {
     getExternalUrl: function (text) {
       return 'http://www.wordreference.com/definition/' + text
     }
-  },
-  watch: {
-    'result': function (val, oldVal) {
-      console.log('result', val, oldVal)
-    }
   }
 }
 </script>

@@ -41,7 +41,4 @@ export default {
 }
 </script>
 <style scoped>
-  .custom-left-menu{
-
-  }
 </style>

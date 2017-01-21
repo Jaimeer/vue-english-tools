@@ -15,6 +15,7 @@ import NavMenu from './components/NavMenu'
 import LeftMenu from './components/LeftMenu'
 import FooterSection from './components/FooterSection'
 import 'bulma/css/bulma.css'
+import 'font-awesome/css/font-awesome.css'
 
 export default {
   name: 'app',
